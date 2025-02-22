@@ -1,3 +1,5 @@
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/webtk/simple-pyvista-notebooks/HEAD?urlpath=%2Fdoc%2Ftree%2FREADME.md)
+
 # Simple Collection of Jupyter Notebooks for CAD, CAE application developers
 
 ## Contents
