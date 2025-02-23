@@ -15,4 +15,5 @@ USER $NB_UID
 COPY requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
 COPY *.ipynb /home/jovyan/
-CMD Xvfb :99 -screen 0 1024x768x24 & export DISPLAY=:99 && jupyter lab --ip=0.0.0.0
+# CMD Xvfb :99 -screen 0 1024x768x24 & export DISPLAY=:99 && jupyter lab --ip=0.0.0.0
+CMD jupyter lab --ip=0.0.0.0
