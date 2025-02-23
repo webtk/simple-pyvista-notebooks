@@ -1,5 +1,5 @@
 jupyterlab==4.2.5
-vtk==9.3.1
+vtk
 trame
 trame-vtk
 trame-client
