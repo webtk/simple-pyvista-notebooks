@@ -1,21 +1,18 @@
-jupyterlab==4.2.5
-vtk==9.3.1
+# jupyter-lsp
+jupyterlab
+jupyterlab-lsp
+# python-lsp-server
+# notebook
+# jupyter-server-proxy
+ipywidgets
+vtk
 trame
 trame-vtk
 trame-client
 trame-server
 trame-vuetify
-pyvista==0.43.10
-ipywidgets<9.0.0
-ipyfilechooser
-ipydatagrid
+trame-jupyter-extension
+pyvista
 numpy
 pandas
-h5py==3.12.1
-point-cloud-utils==0.30.4
-PyMCubes==0.1.6
-pymeshfix==0.16.2
-pymoo==0.6.1.3
-tetgen==0.6.4
-meshio
-trimesh
+h5py

@@ -10,14 +10,18 @@ RUN apt-get update && apt-get install -y \
     libxcb1 \
     libx11-6 \
     xvfb \
+    # git \
     && rm -rf /var/lib/apt/lists/*
 COPY requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
-RUN Xvfb :99 -screen 0 1024x768x24 & export DISPLAY=:99
+# RUN pip install git+https://github.com/jwindgassen/jupyter-trame-proxy.git
+# RUN jupyter serverextension enable --sys-prefix jupyter_server_proxy
+# RUN jupyter labextension install @jupyterlab/server-proxy && jupyter lab build
 
 USER $NB_UID
 
-#ENTRYPOINT ["jupyter", "notebook"]
-#CMD ["--ip=0.0.0.0", "--port=8888", "--NotebookApp.token=''"]
+# RUN Xvfb :99 -screen 0 1024x768x24 & export DISPLAY=:99
+# ENTRYPOINT ["jupyter", "notebook"]
+# CMD ["--ip=0.0.0.0", "--port=8888", "--NotebookApp.token=\"''\""]
 #CMD Xvfb :99 -screen 0 1024x768x24 & export DISPLAY=:99 && jupyter lab --ip=0.0.0.0 --allow-root
 CMD Xvfb :99 -screen 0 1024x768x24 & export DISPLAY=:99 && jupyter lab --ip=0.0.0.0
