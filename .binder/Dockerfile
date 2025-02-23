@@ -11,9 +11,8 @@ RUN apt-get update && apt-get install -y \
     libx11-6 \
     xvfb \
     && rm -rf /var/lib/apt/lists/*
+USER $NB_UID
 COPY requirements.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -r /tmp/requirements.txt
-
-USER $NB_UID
-
+COPY *.ipynb /home/jovyan/
 CMD Xvfb :99 -screen 0 1024x768x24 & export DISPLAY=:99 && jupyter lab --ip=0.0.0.0
