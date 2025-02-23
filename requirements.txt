@@ -1,6 +1,6 @@
 numpy
 pandas
+pyvista[all,trame]
 jupyterlab
-'pyvista[all, trame]'
 trimesh
 h5py
