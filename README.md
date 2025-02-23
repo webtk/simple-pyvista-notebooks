@@ -4,3 +4,11 @@
 
 ## Contents
  - [Step 1. Make simple PolyData object and plot with basic plotter](01_load_and_plot.ipynb)
+
+## TODO
+ - Load a mesh and visualize it in trame client viewer
+ - Decimate the mesh for faster rendering
+ - Convert mesh to SDF grid
+ - Convert SDF into mesh by marching cube
+ - Load field data and render it
+ - Visualize load condition
