@@ -12,3 +12,7 @@
  - Convert SDF into mesh by marching cube
  - Load field data and render it
  - Visualize load condition
+
+ # Data Sources
+  - [GRAB CAD Community Library](https://grabcad.com/library)
+  - [Thingiverse](https://www.thingiverse.com/)

@@ -49,3 +49,5 @@ dmypy.json
 
 # Pyre
 .pyre/
+
+data/

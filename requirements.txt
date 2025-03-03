@@ -16,3 +16,4 @@ pyvista
 numpy
 pandas
 h5py
+trimesh
