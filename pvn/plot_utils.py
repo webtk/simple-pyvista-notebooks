@@ -1,5 +1,5 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
 def plot_histogram(arr: np.ndarray):
     # 1) 히스토그램 그리기
