@@ -17,3 +17,5 @@ numpy
 pandas
 h5py
 trimesh
+pytest
+pytest-mock
