@@ -10,10 +10,8 @@ PyVista와 ipywidgets를 사용하여 구현되었습니다.
 """
 
 import pyvista as pv
-import numpy as np
 import ipywidgets as widgets
-from IPython.display import display, HTML
-import sys
+from IPython.display import display
 import os
 
 def load_mesh_info(stl_filepath):
@@ -41,12 +39,6 @@ def load_mesh_info(stl_filepath):
 def create_control_panel():
     """제어 패널 위젯들을 생성"""
     
-    # 정보 표시를 위한 HTML 위젯
-    info_display = widgets.HTML(
-        value="<h3>Mesh 정보</h3><p>마우스를 mesh 위에 올려보세요!</p>",
-        layout=widgets.Layout(width='100%', height='200px', border='1px solid gray', overflow='auto')
-    )
-    
     # 카메라 제어 위젯들
     view_buttons = widgets.HBox([
         widgets.Button(description="등각뷰", layout=widgets.Layout(width='80px')),
@@ -55,14 +47,6 @@ def create_control_panel():
         widgets.Button(description="위뷰", layout=widgets.Layout(width='80px')),
         widgets.Button(description="리셋", layout=widgets.Layout(width='80px')),
     ])
-    
-    # Picking 모드 선택
-    picking_mode = widgets.Dropdown(
-        options=['정점', '셀', '비활성화'],
-        value='정점',
-        description='Picking 모드:',
-        layout=widgets.Layout(width='100%')
-    )
     
     # 메시 속성 제어
     mesh_properties = widgets.VBox([
@@ -77,13 +61,10 @@ def create_control_panel():
         widgets.HTML(value="<h3>제어 패널</h3>"),
         widgets.HTML(value="<h4>카메라 뷰</h4>"),
         view_buttons,
-        widgets.HTML(value="<h4>Picking 모드</h4>"),
-        picking_mode,
         mesh_properties,
-        info_display
     ], layout=widgets.Layout(width='100%', height='100%', border='2px solid blue'))
     
-    return control_panel, info_display, view_buttons, mesh_properties, picking_mode
+    return control_panel, view_buttons, mesh_properties
 
 def create_plotter(mesh):
     """Plotter를 생성하고 mesh를 추가"""
@@ -104,53 +85,8 @@ def create_plotter(mesh):
     
     return plotter, actor
 
-def setup_event_handlers(plotter, actor, info_display, view_buttons, mesh_properties, picking_mode, mesh):
+def setup_event_handlers(plotter, actor, view_buttons, mesh_properties, mesh):
     """이벤트 핸들러들을 설정 (클릭 기반)"""
-    
-    # 정점 클릭 시 정보 표시
-    def on_point_pick(point):
-        # point: (x, y, z) 좌표
-        # 가장 가까운 정점 인덱스 찾기
-        dists = np.linalg.norm(mesh.points - point, axis=1)
-        point_id = int(np.argmin(dists))
-        pt = mesh.points[point_id]
-        info = f"<h3>정점 선택 정보</h3>"
-        info += f"<p><strong>정점 ID:</strong> {point_id}</p>"
-        info += f"<p><strong>좌표:</strong> ({pt[0]:.3f}, {pt[1]:.3f}, {pt[2]:.3f})</p>"
-        try:
-            connected_cells = mesh.point_cells(point_id)
-            info += f"<p><strong>연결된 셀 개수:</strong> {len(connected_cells)}</p>"
-        except:
-            info += f"<p><strong>연결된 셀 정보:</strong> 확인 불가</p>"
-        info_display.value = info
-
-    # 셀 클릭 시 정보 표시
-    def on_cell_pick(mesh_, idx):
-        info = f"<h3>셀 선택 정보</h3>"
-        info += f"<p><strong>셀 ID:</strong> {idx}</p>"
-        try:
-            cell = mesh.get_cell(idx)
-            cell_points = cell.points
-            info += f"<p><strong>셀 정점들:</strong></p>"
-            for i, pt in enumerate(cell_points):
-                info += f"<p>  정점 {i}: ({pt[0]:.3f}, {pt[1]:.3f}, {pt[2]:.3f})</p>"
-        except:
-            info += f"<p><strong>셀 정보:</strong> 확인 불가</p>"
-        info_display.value = info
-
-    # Picking 모드 토글 함수
-    def toggle_picking_mode(change):
-        # 기존 picking 비활성화
-        plotter.disable_picking()
-        
-        if change['new'] == '정점':
-            plotter.enable_point_picking(callback=on_point_pick, show_message=True, use_picker=False)
-        elif change['new'] == '셀':
-            plotter.enable_cell_picking(callback=on_cell_pick, show_message=True)
-        else:
-            # picking 비활성화 상태 유지
-            pass
-
     # 카메라/mesh 속성 제어 함수들은 기존과 동일하게 유지
     def set_isometric_view(b):
         plotter.camera_position = 'iso'
@@ -192,24 +128,18 @@ def setup_event_handlers(plotter, actor, info_display, view_buttons, mesh_proper
     mesh_properties.children[1].observe(update_edge_visibility, names='value')
     mesh_properties.children[2].observe(update_opacity, names='value')
     mesh_properties.children[3].observe(update_edge_width, names='value')
-    
-    # 기본적으로 정점 picking 활성화
-    plotter.enable_point_picking(callback=on_point_pick, show_message=True, use_picker=False)
-
-    # Picking 모드 선택 이벤트 연결
-    picking_mode.observe(toggle_picking_mode, names='value')
 
 def create_integrated_viewer(mesh):
     """통합된 뷰어를 생성하고 반환"""
     
     # 제어 패널 생성
-    control_panel, info_display, view_buttons, mesh_properties, picking_mode = create_control_panel()
+    control_panel, view_buttons, mesh_properties = create_control_panel()
     
     # Plotter 생성
     plotter, actor = create_plotter(mesh)
     
     # 이벤트 핸들러 설정
-    setup_event_handlers(plotter, actor, info_display, view_buttons, mesh_properties, picking_mode, mesh)
+    setup_event_handlers(plotter, actor, view_buttons, mesh_properties, mesh)
     
     # plotter를 ipywidgets로 변환
     plotter_widget = plotter.show(return_viewer=True)
