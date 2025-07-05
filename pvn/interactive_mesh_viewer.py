@@ -58,7 +58,7 @@ def create_control_panel():
     
     # picking 정보 표시를 위한 HTML 위젯
     info_display = widgets.HTML(
-        value="<p>Click right button on the mesh to see the information</p>",
+        value="<p>마우스 오른쪽 버튼을 클릭하여 정보를 확인하세요</p>",
         layout=widgets.Layout(width='100%', height='200px', border='1px solid gray', overflow='auto')
     )
 
@@ -68,7 +68,7 @@ def create_control_panel():
         widgets.HTML(value="<h4>카메라 뷰</h4>"),
         view_buttons,
         mesh_properties,
-        widgets.HTML(value="<h4>정점 정보</h4>"),
+        widgets.HTML(value="<h4>선택 정보</h4>"),
         info_display,
     ], layout=widgets.Layout(width='100%', height='100%', border='2px solid blue'))
     
@@ -126,7 +126,7 @@ def setup_event_handlers(plotter, actor, view_buttons, mesh_properties, info_dis
         plotter.render()
     
     def on_point_pick(element):
-        info_display.value = f"<p>선택된 정점: {element}</p>"
+        info_display.value = f"<p>선택: {element}</p>"
 
     # 기본적으로 정점 picking 활성화
     plotter.enable_element_picking(callback=on_point_pick,show_message=False)
