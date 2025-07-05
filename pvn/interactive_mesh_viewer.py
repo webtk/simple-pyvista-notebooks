@@ -56,15 +56,23 @@ def create_control_panel():
         widgets.FloatSlider(value=0.5, min=0.1, max=2.0, step=0.1, description='모서리 두께:', continuous_update=False),
     ], layout=widgets.Layout(width='100%', border='1px solid gray'))
     
+    # picking 정보 표시를 위한 HTML 위젯
+    info_display = widgets.HTML(
+        value="<h3>Picking 정보</h3><p>Click right button on the mesh to see the information</p>",
+        layout=widgets.Layout(width='100%', height='200px', border='1px solid gray', overflow='auto')
+    )
+
     # 전체 컨트롤 패널
     control_panel = widgets.VBox([
         widgets.HTML(value="<h3>제어 패널</h3>"),
         widgets.HTML(value="<h4>카메라 뷰</h4>"),
         view_buttons,
         mesh_properties,
+        widgets.HTML(value="<h4>정점 정보</h4>"),
+        info_display,
     ], layout=widgets.Layout(width='100%', height='100%', border='2px solid blue'))
     
-    return control_panel, view_buttons, mesh_properties
+    return control_panel, view_buttons, mesh_properties, info_display
 
 def create_plotter(mesh):
     """Plotter를 생성하고 mesh를 추가"""
@@ -76,7 +84,7 @@ def create_plotter(mesh):
     plotter = pv.Plotter(notebook=True, window_size=[800, 600])
     
     # Mesh 추가
-    actor = plotter.add_mesh(mesh, show_edges=True, edge_color='black', line_width=0.5)
+    actor = plotter.add_mesh(mesh, show_edges=True, edge_color='black', line_width=0.5, pickable=True)
     
     # 카메라 위치 설정
     plotter.camera_position = 'iso'
@@ -85,7 +93,7 @@ def create_plotter(mesh):
     
     return plotter, actor
 
-def setup_event_handlers(plotter, actor, view_buttons, mesh_properties, mesh):
+def setup_event_handlers(plotter, actor, view_buttons, mesh_properties, info_display, mesh):
     """이벤트 핸들러들을 설정 (클릭 기반)"""
     # 카메라/mesh 속성 제어 함수들은 기존과 동일하게 유지
     def set_isometric_view(b):
@@ -117,6 +125,12 @@ def setup_event_handlers(plotter, actor, view_buttons, mesh_properties, mesh):
         actor.GetProperty().SetLineWidth(change['new'])
         plotter.render()
     
+    def on_point_pick(point):
+        info_display.value = f"<p>선택된 정점: {point}</p>"
+
+    # 기본적으로 정점 picking 활성화
+    plotter.enable_point_picking(callback=on_point_pick)
+    
     # 버튼 이벤트 연결
     view_buttons.children[0].on_click(set_isometric_view)
     view_buttons.children[1].on_click(set_front_view)
@@ -133,13 +147,13 @@ def create_integrated_viewer(mesh):
     """통합된 뷰어를 생성하고 반환"""
     
     # 제어 패널 생성
-    control_panel, view_buttons, mesh_properties = create_control_panel()
+    control_panel, view_buttons, mesh_properties, info_display = create_control_panel()
     
     # Plotter 생성
     plotter, actor = create_plotter(mesh)
     
     # 이벤트 핸들러 설정
-    setup_event_handlers(plotter, actor, view_buttons, mesh_properties, mesh)
+    setup_event_handlers(plotter, actor, view_buttons, mesh_properties, info_display, mesh)
     
     # plotter를 ipywidgets로 변환
     plotter_widget = plotter.show(return_viewer=True)
