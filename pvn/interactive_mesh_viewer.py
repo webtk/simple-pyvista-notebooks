@@ -58,7 +58,7 @@ def create_control_panel():
     
     # picking 정보 표시를 위한 HTML 위젯
     info_display = widgets.HTML(
-        value="<h3>Picking 정보</h3><p>Click right button on the mesh to see the information</p>",
+        value="<p>Click right button on the mesh to see the information</p>",
         layout=widgets.Layout(width='100%', height='200px', border='1px solid gray', overflow='auto')
     )
 
@@ -125,11 +125,11 @@ def setup_event_handlers(plotter, actor, view_buttons, mesh_properties, info_dis
         actor.GetProperty().SetLineWidth(change['new'])
         plotter.render()
     
-    def on_point_pick(point):
-        info_display.value = f"<p>선택된 정점: {point}</p>"
+    def on_point_pick(element):
+        info_display.value = f"<p>선택된 정점: {element}</p>"
 
     # 기본적으로 정점 picking 활성화
-    plotter.enable_point_picking(callback=on_point_pick)
+    plotter.enable_element_picking(callback=on_point_pick,show_message=False)
     
     # 버튼 이벤트 연결
     view_buttons.children[0].on_click(set_isometric_view)
