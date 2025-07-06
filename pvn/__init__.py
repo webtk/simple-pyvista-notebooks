@@ -9,4 +9,6 @@ __version__ = "0.1.0"
 __all__ = [
     "InteractiveMeshViewer",
     "MultiMeshViewer",
+    "create_simple_mesh",
+    "plot_histogram"
 ]

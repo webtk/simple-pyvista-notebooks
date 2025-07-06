@@ -1,10 +1,6 @@
 import numpy as np
 import pyvista as pv
 
-def load_sample_mesh():
-    mesh = pv.read('data/10_30.stl')
-    return mesh
-    
 def create_simple_mesh():
     points = np.array([
         [0.5, 0.0, 0.0],
