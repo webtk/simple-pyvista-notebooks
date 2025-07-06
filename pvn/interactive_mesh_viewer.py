@@ -12,7 +12,6 @@ PyVista와 ipywidgets를 사용하여 구현되었습니다.
 
 import pyvista as pv
 import ipywidgets as widgets
-from IPython.display import display
 import os
 
 
