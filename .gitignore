@@ -51,3 +51,6 @@ dmypy.json
 .pyre/
 
 data/
+
+# vim
+tags*
