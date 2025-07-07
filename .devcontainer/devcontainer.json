@@ -1,0 +1,11 @@
+{
+    "name": "Dev Container",
+    "dockerFile": "Dockerfile",
+    "context": "..",
+    "appPort": [3000],
+    "extensions": [
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "ms-vscode-remote.remote-containers"
+    ]
+}
