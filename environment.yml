@@ -1,0 +1,11 @@
+name: webtk_pvn_310
+channels:
+  - defaults
+dependencies:
+  - python=3.10
+  - pyvista
+  - pythonocc-core
+  - build123d
+  - cadquery
+  - ipykernel
+prefix: /home/webtk/miniconda3/envs/webtk_pvn_310
