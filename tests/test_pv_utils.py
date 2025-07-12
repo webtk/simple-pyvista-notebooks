@@ -1,8 +1,14 @@
 import unittest
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
+
 import numpy as np
 import pyvista as pv
-from pvn.pv_utils import load_sample_mesh, create_simple_mesh
+
+from pvn.pv_utils import create_simple_mesh
+
+
+def load_sample_mesh() -> pv.PolyData:
+    return pv.Sphere()
 
 class TestPVUtils(unittest.TestCase):
     @patch('pyvista.read')
