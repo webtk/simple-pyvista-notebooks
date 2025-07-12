@@ -1,5 +1,9 @@
-import trimesh
 import pyvista as pv
+import trimesh
+
+
+def trimesh_to_pyvista(mesh: trimesh.Trimesh) -> pv.PolyData:
+    return pv.PolyData(mesh.vertices, mesh.faces.reshape(-1, 4)[:, 1:])
 
 def pv_to_trimesh(pv_mesh:pv.PolyData) -> trimesh.Trimesh:
     """

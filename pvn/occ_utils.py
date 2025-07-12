@@ -1,15 +1,28 @@
 from typing import List
-from OCC.Core.BRep import BRep_Builder
-from OCC.Core.TopoDS import TopoDS_Shape
-from OCC.Core.BRepTools import breptools_Read
-from OCC.Core.BRepMesh import BRepMesh_IncrementalMesh
-from OCC.Core.TopExp import TopExp_Explorer
-from OCC.Core.TopAbs import TopAbs_FACE
-from OCC.Core.TopoDS import TopoDS_Face
-from OCC.Core.BRep import BRep_Tool
-from OCC.Core.TopLoc import TopLoc_Location
-import pyvista as pv
+
 import numpy as np
+import pyvista as pv
+from OCC.Core.BRep import BRep_Builder, BRep_Tool
+from OCC.Core.BRepMesh import BRepMesh_IncrementalMesh
+from OCC.Core.BRepTools import breptools_Read
+from OCC.Core.IFSelect import IFSelect_RetDone
+from OCC.Core.STEPControl import STEPControl_Reader
+from OCC.Core.TopAbs import TopAbs_FACE
+from OCC.Core.TopExp import TopExp_Explorer
+from OCC.Core.TopLoc import TopLoc_Location
+from OCC.Core.TopoDS import TopoDS_Face, TopoDS_Shape
+
+
+def load_step(filepath: str) -> TopoDS_Shape:
+    reader = STEPControl_Reader()
+    status = reader.ReadFile(filepath)
+
+    if status != IFSelect_RetDone:
+        raise RuntimeError(f'Failed to load STEP file: {filepath}')
+    
+    reader.TransferRoots()
+    shape = reader.OneShape()
+    return shape
 
 
 def load_brep(filepath):
