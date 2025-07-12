@@ -1,21 +1,16 @@
-# jupyter-lsp
-jupyterlab
-jupyterlab-lsp
-# python-lsp-server
-# notebook
-# jupyter-server-proxy
+ocp_vscode
+jupyter-cadquery
+ipython
 ipywidgets
-vtk
-trame
-trame-vtk
-trame-client
-trame-server
-trame-vuetify
-trame-jupyter-extension
-pyvista
+matplotlib
 numpy
 pandas
+scipy
 h5py
 trimesh
-pytest
-pytest-mock
+trame
+trame-client
+trame-server
+trame-vtk
+trame-vuetify
+trame-jupyter-extension
