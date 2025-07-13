@@ -1,29 +1,23 @@
-name: webtk_cad_310_v6
+name: webtk_pvn_dev
 channels:
+  - defaults
   - conda-forge
 dependencies:
   - python=3.10
-  - pip
-  - pytest
-  - nbmake
-  - ipython
-  - ipywidgets
   - matplotlib
   - numpy
-  - pandas
   - scipy
-  - h5py
+  - ipykernel
+  - ipython
+  - ipywidgets
+  - jupyter_client
+  - pythonocc-core
+  - build123d
+  - cadquery
+  - nlopt==2.10.0
   - trimesh
-  - trame
-  - trame-client
-  - trame-server
-  - trame-vtk
-  - trame-vuetify
-  - trame-jupyter-extension
-  - pyvista
   - pip:
-    - jupyter-cadquery
+    - pyvista[jupyter]
+    - trame[all]
+    - jupyter_cadquery
     - ocp_vscode
-    - build123d
-    - cadquery
-    - pythonocc-core
