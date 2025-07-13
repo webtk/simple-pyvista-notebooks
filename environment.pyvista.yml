@@ -1,0 +1,17 @@
+name: webtk_pyvista_dev
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.10
+  - vtk=9.2.6
+  - pyvista[jupyter]=0.45.2
+  - trame[all]
+  - matplotlib
+  - scipy
+  - ipykernel
+  - ipython
+  - ipywidgets
+  - pip:
+    - point_cloud_utils
+    - trimesh

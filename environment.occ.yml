@@ -1,0 +1,10 @@
+name: webtk_occ_dev
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.10
+  - nlopt=2.10.0
+  - pythonocc-core
+  - build123d
+  - cadquery
