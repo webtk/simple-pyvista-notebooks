@@ -1,11 +1,10 @@
-FROM python:3.11
+FROM condaforge/miniforge3:25.3.0-3
 
-USER root
-RUN apt-get update && apt-get install -y xvfb sudo curl && apt-get clean && rm -rf /var/lib/apt/lists/*
+COPY environment.yml /tmp/environment.yml
+RUN conda env create -f /tmp/environment.yml
+# 기본 환경 활성화
+SHELL ["bash", "-lc"]
 
-WORKDIR /workspace
-
-COPY requirements.txt .
-RUN pip install -r requirements.txt
-
-CMD ["/bin/bash"]
+WORKDIR /app
+# 진입 스크립트
+ENTRYPOINT ["bash", "-lc", "conda activate myenv && python main.py"]
